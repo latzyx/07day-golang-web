@@ -18,6 +18,8 @@ type Context struct {
 	Path string
 	// Method http请求方式
 	Method string
+	// Params 路由节点
+	Params map[string]string
 	// StatusCode http状态码
 	StatusCode int
 }
@@ -29,6 +31,12 @@ func newContext(w http.ResponseWriter, req *http.Request) *Context {
 		Path:   req.URL.Path,
 		Method: req.Method,
 	}
+}
+
+// Param 获取路由节点
+func (c *Context) Param(key string) string {
+	value, _ := c.Params[key]
+	return value
 }
 
 // PostForm  Post 表单字段传输方式
@@ -59,8 +67,8 @@ func (c *Context) String(code int, format string, values ...interface{}) {
 	c.Writer.Write([]byte(fmt.Sprintf(format, values...)))
 }
 
-// Json  JSON内容解析
-func (c *Context) Json(code int, obj interface{}) {
+// JSON  JSON内容解析
+func (c *Context) JSON(code int, obj interface{}) {
 	c.SetHander("Content-Type", "application/json")
 	c.Status(code)
 	encoder := json.NewEncoder(c.Writer)
