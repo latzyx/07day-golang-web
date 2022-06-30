@@ -1,4 +1,18 @@
+GET http://localhost:9999/assets/css/geektutu.css
+Accept: application/json
+
+###
+GET http://localhost:9999/hello/geektutu
+Accept: application/json
+
+###
 GET http://localhost:9999/hello
+Accept: application/json
+
+
+
+###
+GET http://localhost:9999/
 Accept: application/json
 
 ###
@@ -8,7 +22,6 @@ Content-Type: application/json
 {"username":"123456",
   "password":"123456"}
 
-###
 ###
 POST http://localhost:9999/login
 Content-Type: application/x-www-form-urlencoded
