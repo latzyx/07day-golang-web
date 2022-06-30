@@ -10,25 +10,9 @@ type Router struct {
 	handlers map[string]HandlerFunc
 }
 
-func NewRouter() *Router {
-	return &Router{
-		roots:    make(map[string]*node),
-		handlers: make(map[string]HandlerFunc),
-	}
-}
-
-func (r *Router) AddRoute(method string, pattern string, handler HandlerFunc) {
-	parts := ParsePattern(pattern)
-	key := method + "-" + pattern
-	_, ok := r.roots[method]
-	if !ok {
-		r.roots[method] = &node{}
-	}
-	r.roots[method].insert(pattern, parts, 0)
-	r.handlers[key] = handler
-}
 func ParsePattern(pattern string) []string {
 	vs := strings.Split(pattern, "/")
+
 	parts := make([]string, 0)
 	for _, item := range vs {
 		if item != "" {
@@ -40,6 +24,25 @@ func ParsePattern(pattern string) []string {
 	}
 	return parts
 }
+func NewRouter() *Router {
+	return &Router{
+		roots:    make(map[string]*node),
+		handlers: make(map[string]HandlerFunc),
+	}
+}
+
+func (r *Router) AddRoute(method string, pattern string, handler HandlerFunc) {
+	parts := ParsePattern(pattern)
+
+	key := method + "-" + pattern
+	_, ok := r.roots[method]
+	if !ok {
+		r.roots[method] = &node{}
+	}
+	r.roots[method].insert(pattern, parts, 0)
+	r.handlers[key] = handler
+}
+
 func (r *Router) GetRoute(method string, path string) (*node, map[string]string) {
 	searchParts := ParsePattern(path)
 	params := make(map[string]string)

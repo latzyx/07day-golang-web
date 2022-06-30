@@ -1,4 +1,4 @@
-package gee
+package test
 
 import (
 	"fmt"
@@ -6,10 +6,10 @@ import (
 )
 
 type node struct {
-	Pattern  string  // 等待匹配的路由
-	part     string  // 路由的一部分
-	children []*node // 子节点
-	isWild   bool    // 是否成功匹配
+	Pattern  string
+	part     string
+	children []*node
+	isWild   bool
 }
 
 func (n *node) String() string {
@@ -60,7 +60,6 @@ func (n *node) travel(list *[]*node) {
 	}
 }
 
-// 第一个匹配成功的节点,用于插入
 func (n *node) matchChild(part string) *node {
 	for _, child := range n.children {
 		if child.part == part || child.isWild {
@@ -70,7 +69,6 @@ func (n *node) matchChild(part string) *node {
 	return nil
 }
 
-// 所有匹配成功的节点,用于查找
 func (n *node) matchChildren(part string) []*node {
 	nodes := make([]*node, 0)
 	for _, child := range n.children {
@@ -80,21 +78,3 @@ func (n *node) matchChildren(part string) []*node {
 	}
 	return nodes
 }
-
-// 匹配成功进行插入
-/*func (n *node) insert(Pattern string, parts []string, height int) {
-	if len(parts) == height {
-		n.Pattern = Pattern
-		return
-	}
-	part := parts[height]
-	child := n.matchChild(part)
-	if child == nil {
-		child = &node{
-			Pattern: part,
-			isWild:  part[0] == ':' || part[0] == '*',
-		}
-		n.children = append(n.children, child)
-	}
-	child.insert(Pattern, parts, height+1)
-}*/

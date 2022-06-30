@@ -18,17 +18,17 @@ func New() *Engine {
 	return &Engine{router: NewRouter()}
 }
 
-// addRoute 添加一个route :method 传递方法，pattern 模式,handler 方法
+// addRoute 添加一个route :method 传递方法，Pattern 模式,handler 方法
 func (engine *Engine) addRoute(method string, pattern string, handler HandlerFunc) {
 	engine.router.AddRoute(method, pattern, handler)
 }
 
-// GET 创建一个GET方法,传递参数 :pattern 模式， handler 方法
+// GET 创建一个GET方法,传递参数 :Pattern 模式， handler 方法
 func (engine *Engine) GET(pattern string, handler HandlerFunc) {
 	engine.addRoute("GET", pattern, handler)
 }
 
-// POST 创建一个POST方法,传递参数 :pattern 模式， handler 方法
+// POST 创建一个POST方法,传递参数 :Pattern 模式， handler 方法
 func (engine *Engine) POST(pattern string, handler HandlerFunc) {
 	engine.addRoute("POST", pattern, handler)
 }
