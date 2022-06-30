@@ -10,7 +10,15 @@ type HandlerFunc func(*Context)
 
 // Engine  创建一个router结构体 implement the interface of ServeHTTP
 type Engine struct {
+	*RouterGroup
 	router *Router
+	groups []*RouterGroup
+}
+type RouterGroup struct {
+	prefix      string
+	middlewares []HandlerFunc // support middleware
+	parent      *RouterGroup  // support nesting
+	engine      *Engine
 }
 
 // New 新建一个router
