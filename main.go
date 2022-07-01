@@ -33,6 +33,24 @@ func main() {
 			c.JSON(http.StatusOK, gee.H{"filepath": c.Param("filepath")})
 		},
 	)
+	r.POST(
+		"/test", func(c *gee.Context) {
+			c.JSON(
+				http.StatusOK, gee.H{
+					"data": c.Param("data"),
+				},
+			)
+		},
+	)
+	r.POST(
+		"/test/a", func(c *gee.Context) {
+			c.JSON(
+				http.StatusOK, gee.H{
+					"data": c.Writer,
+				},
+			)
+		},
+	)
 
 	r.Run(":9999")
 }

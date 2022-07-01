@@ -65,6 +65,7 @@ func (c *Context) String(code int, format string, values ...interface{}) {
 	c.SetHander("Content-Type", "text/plain")
 	c.Status(code)
 	c.Writer.Write([]byte(fmt.Sprintf(format, values...)))
+	fmt.Println(values)
 }
 
 // JSON  JSON内容解析
@@ -75,6 +76,7 @@ func (c *Context) JSON(code int, obj interface{}) {
 	if err := encoder.Encode(obj); err != nil {
 		http.Error(c.Writer, err.Error(), 500)
 	}
+	fmt.Printf(" encoder is :%v\n", encoder)
 }
 
 // Data  DATA 数据字节
