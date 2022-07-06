@@ -1,6 +1,7 @@
 package gee
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -23,12 +24,27 @@ type RouterGroup struct {
 
 // New 新建一个router
 func New() *Engine {
-	return &Engine{router: NewRouter()}
+	engine := &Engine{router: NewRouter()}
+	engine.RouterGroup = &RouterGroup{engine: engine}
+	engine.groups = []*RouterGroup{engine.RouterGroup}
+	return engine
+}
+func (group *RouterGroup) Group(prefix string) *RouterGroup {
+	engine := group.engine
+	newGroup := &RouterGroup{
+		prefix: group.prefix + prefix,
+		parent: group,
+		engine: engine,
+	}
+	engine.groups = append(engine.groups, newGroup)
+	return newGroup
 }
 
 // addRoute 添加一个route :method 传递方法，Pattern 模式,handler 方法
-func (engine *Engine) addRoute(method string, pattern string, handler HandlerFunc) {
-	engine.router.AddRoute(method, pattern, handler)
+func (g *RouterGroup) addRoute(method string, comp string, handler HandlerFunc) {
+	pattern := g.prefix + comp
+	log.Panicln("Route %4s - %s", method, pattern)
+	g.engine.router.AddRoute(method, pattern, handler)
 }
 
 // GET 创建一个GET方法,传递参数 :Pattern 模式， handler 方法

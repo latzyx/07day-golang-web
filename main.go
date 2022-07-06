@@ -37,7 +37,7 @@ func main() {
 		"/test", func(c *gee.Context) {
 			c.JSON(
 				http.StatusOK, gee.H{
-					"data": c.Param("data"),
+					"data": c.PostForm("data"),
 				},
 			)
 		},
